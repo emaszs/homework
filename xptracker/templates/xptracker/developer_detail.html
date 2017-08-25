@@ -1,0 +1,5 @@
+<h3>{{ developer.name }}</h3>
+
+{% for task in developer.task_set.all %}
+    <p>{{ task.name }}</p>
+{% endfor %}

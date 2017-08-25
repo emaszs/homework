@@ -1,0 +1,55 @@
+<h3>Developers</h3>
+{% if developer_list %}
+    <ul>
+    {% for developer in developer_list %}
+        <li><a href={% url "xptracker:developer_detail" developer.id %}>{{ developer.name }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No developers exist.</p>
+{% endif %}
+
+<h3>Stories</h3
+{% if story_list %}
+    {% for story in story_list %}
+        <p><b>{{ story.name }}</b>  {{ story.description }}</p>
+    {% endfor %}
+{% else %}
+    <p>No stories exist.</p>
+{% endif %}
+
+<a href={% url "xptracker:story_create" %}>Create new story</a>
+
+<h3>Tasks</h3>
+{% if task_list %}
+    {% for task in task_list %}
+        <p><b>{{ task.name }}</b>  {{ task.description }}</p>
+    {% endfor %}
+{% else %}
+    <p>No tasks exist.</p>
+{% endif %}
+
+<a href={% url "xptracker:task_create" %}>Create new task</a>
+
+<h3>Iterations</h3>
+{% if iteration_list %}
+    <ul>
+    {% for iteration in iteration_list %}
+        <li>{{ iteration.name }}</li>
+        <ul>
+        {% for story in iteration.story_set.all %}
+            <li>{{ story.name }}</li>
+            <ul>
+            {% for task in story.task_set.all %}
+                <li>{{ task.name }}</li>
+            {% endfor %}
+            </ul>
+        {% endfor %}
+        </ul>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No iterations exist.</p>
+{% endif %}
+
+<a href={% url "xptracker:iteration_create" %}>Create new iteration</a>
