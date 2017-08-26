@@ -1,4 +1,12 @@
 <form action="", method="post">{% csrf_token %}
     {{ form.as_p }}
-    <input type="submit", value="Change developer" />
+    <input type="submit", value="Update information" />
 </form>
+
+<h3>Work done for this task:</h3>
+{% for work in task.work_set.all %}
+    <p>
+    {{ work }}
+    </p>
+{% endfor %}
+<p>Total work done for this task: {{ task.total_work }} </p>

@@ -1,0 +1,6 @@
+<form action="" method="post">{% csrf_token %}
+    <p>Are you sure you want to delete the story "{{ story }}"?<br/>
+    All tasks that belong to this story (and work history done on those tasks) will also
+    be deleted.</p>
+    <input type="submit" value="Confirm" />
+</form>

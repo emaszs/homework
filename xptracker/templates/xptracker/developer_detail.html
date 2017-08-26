@@ -1,5 +1,13 @@
-<h3>{{ developer.name }}</h3>
+<h2>Developer details</h2>
+Name: {{ developer.name }}
 
+<h4>Developer's tasks:</h4>
 {% for task in developer.task_set.all %}
     <p>{{ task.name }}</p>
 {% endfor %}
+
+<h4>total work done:</h4>
+{{ developer.total_work_done }} Hours
+
+<h4>total work estimated:</h4>
+{{ developer.total_work_estimated }} Hours

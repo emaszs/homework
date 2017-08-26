@@ -1,0 +1,19 @@
+table {
+    border-collapse: collapse;
+}
+
+table, th, td {
+    border: 1px solid black;
+}
+
+th {
+    color: green;
+}
+
+td {
+    word-break: break-all;
+}
+
+#totals-label-cell{
+    text-align: right;
+}
