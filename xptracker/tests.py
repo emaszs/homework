@@ -2,6 +2,7 @@ from django.urls import reverse
 from django.test import TestCase
 
 from xptracker.models import Developer, Story, Work, Task, Iteration
+from time import sleep
 
 def create_task(name, developer, iteration, estimate, story):
     return Task.objects.create(name=name, developer=developer,
@@ -340,7 +341,89 @@ class IndexViewTests(TestCase):
         element = '<td id="totals-task-work-cell">209</td>'
         self.assertContains(response, element)
 
+    def test_task_total_work_estimate(self):
+        """
+        The sum of all task estimates is displayed correctly.
+        """
+        iteration = create_iteration('zero')
+        dev = create_developer('Tommy')
+        story = create_story('The page loads super fast', iteration, 20)
+        task1 = create_task('Get rid of some cat pictures', dev, iteration, 10,
+                           story)
+        task2 = create_task('Optimize front page', dev, iteration, 10, story)
 
+        response = self.client.get(reverse('xptracker:index'))
+        element = '<td id="totals-task-work-estimate-cell">20</td>'
+        self.assertContains(response, element)
 
-    def test_work_ordering(self):
-        pass
+    def test_story_total_time_estimate(self):
+        """
+        The sum of all story time estimates is displayed correctly.
+        """
+        iteration = create_iteration('zero')
+        create_story('The page loads super fast', iteration, 20)
+        create_story('The page loads even faster', iteration, 30)
+
+        response = self.client.get(reverse('xptracker:index'))
+        element = '<td id="totals-story-work-estimate-cell">50</td>'
+        self.assertContains(response, element)
+
+    def test_story_total_task_time_actual(self):
+        """
+        The sum of all actual work done on the tasks is displayed correctly.
+        """
+        iteration = create_iteration('zero')
+        story1 = create_story('The page loads super fast', iteration, 20)
+        story2 = create_story('The page loads even faster', iteration, 30)
+
+        dev = create_developer('Tommy')
+        task1 = create_task('Get rid of some cat pictures', dev, iteration, 10,
+                           story1)
+        task2 = create_task('Optimize front page', dev, iteration, 10, story2)
+
+        create_work('Deleting cat pictures :/', 199, task1, dev)
+        create_work('Optimizing front page', 10, task2, dev)
+
+        response = self.client.get(reverse('xptracker:index'))
+        element = '<td id="totals-story-work-cell">209</td>'
+        self.assertContains(response, element)
+
+    def test_work_multiple(self):
+        """
+        Different work entries are displayed from newest to oldest.
+        """
+        iteration = create_iteration('zero')
+        story1 = create_story('The page loads super fast', iteration, 20)
+        dev = create_developer('Tommy')
+        task1 = create_task('Get rid of some cat pictures', dev, iteration, 10,
+                           story1)
+        create_work('Optimizing front page', 10, task1, dev)
+        sleep(1)
+        create_work('Deleting cat pictures', 10, task1, dev)
+
+        response = self.client.get(reverse('xptracker:index'))
+        response.context['work_list']
+        queryset_str = '<QuerySet [<Work: Deleting cat pictures>, ' \
+                       '<Work: Optimizing front page>]>'
+        self.assertEqual(str(response.context['work_list']), queryset_str)
+
+    def test_developer_detail(self):
+        """
+        Developer detail page correctly lists developer's name, tasks,
+        work done and work estimated (estimated on tasks he is currently
+        assigned).
+        """
+        iteration = create_iteration('zero')
+        dev = create_developer('Tommy')
+        story1 = create_story('The page loads super fast', iteration, 20)
+        task = create_task('Get rid of some cat pictures', dev, iteration, 10,
+                           story1)
+        create_work('Optimizing front page', 30, task, dev)
+
+        response = self.client.get(reverse('xptracker:developer_detail',
+                                           kwargs={ 'pk': dev.id}))
+
+        self.assertContains(response, 'Tommy')
+        self.assertContains(response, 'Get rid of some cat pictures')
+        self.assertContains(response, '30 Hours')
+        self.assertContains(response, '10 Hours')

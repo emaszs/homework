@@ -40,9 +40,9 @@ class StoryUpdateView(UpdateView):
     template_name_suffix = '_update'
 
 class StoryDeleteView(DeleteView):
-    template_name_suffix = '_delete'
     model = Story
     success_url = reverse_lazy('xptracker:index')
+    template_name_suffix = '_delete'
 
 class TaskCreateView(CreateView):
     model = Task
