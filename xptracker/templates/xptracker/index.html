@@ -13,28 +13,27 @@
     <p>No developers exist.</p>
 {% endif %}
 
+<a href={% url "xptracker:developer_create" %}>Add developer</a>
+
 <h3>Stories</h3>
 {% if story_list %}
 <table>
     <tr>
         <th>Name</th>
-        <th>Description</th>
         <th>Time estimate</th>
         <th>Time actual</th>
     </tr>
     {% for story in story_list %}
     <tr>
         <td>{{ story.name }}<br/>
-            <a href={% url "xptracker:story_update" story.id %}>Edit</a>|
+            <a href={% url "xptracker:story_update" story.id %}>Edit</a> |
             <a href={% url "xptracker:story_delete" story.id %}>Delete</a>
         </td>
-        <td>{{ story.description }}</td>
         <td>{{ story.time_hours_estimate }}</td>
-        <td>{{ story.time_hours_actual }}</td>
+        <td>{{ story.time_work }}</td>
     </tr>
     {% endfor %}
     <tr>
-        <td/>
         <td id="totals-label-cell"><b>Totals:</b></td>
         <td>{{ total_story_time_estimate }}</td>
         <td>{{ total_task_time_actual }}</td>
@@ -51,10 +50,8 @@
 <table>
     <tr>
         <th>Name</th>
-        <th>Description</th>
         <th>Developer</th>
         <th>Iteration</th>
-        <th>Completed?</th>
         <th>Time estimate</th>
         <th>Time actual</th>
         <th>Add work</th>
@@ -62,21 +59,17 @@
     {% for task in task_list %}
     <tr>
         <td>{{ task.name }}<br/>
-            <a href={% url "xptracker:task_update" task.id %}>Edit</a>|
+            <a href={% url "xptracker:task_update" task.id %}>Edit</a> |
             <a href={% url "xptracker:task_delete" task.id %}>Delete</a>
         </td>
-        <td>{{ task.description }}</td>
         <td>{{ task.developer }}</td>
         <td>{{ task.iteration }}</td>
-        <td>{{ task.completed }}</td>
         <td>{{ task.time_hours_estimate }}</td>
         <td>{{ task.total_work }}</td>
         <td><a href={% url "xptracker:work_create" task.id %}>++</a></td>
     </tr>
     {% endfor %}
     <tr>
-        <td/>
-        <td/>
         <td/>
         <td/>
         <td id="totals-label-cell"><b>Totals:</b></td>
@@ -89,6 +82,31 @@
 {% endif %}
 
 <a href={% url "xptracker:task_create" %}>Create new task</a><br />
+
+<h3>Work entries</h3>
+{% if work_list %}
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Developer</th>
+        <th>When</th>
+        <th>Time spent</th>
+    </tr>
+    {% for work in work_list %}
+    <tr>
+        <td>{{ work.name }}</td>
+        <td>{{ work.developer }}</td>
+        <td>{{ work.create_time }}</td>
+        <td>{{ work.time_hours }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% else %}
+    <p>No work entries exist.</p>
+{% endif %}
+
+<a href={% url "xptracker:work_create" %}>Add work</a><br />
+
 
 <h3>Iterations with respective stories and tasks</h3>
 {% if iteration_list %}
@@ -113,7 +131,3 @@
 
 <a href={% url "xptracker:iteration_create" %}>Create new iteration</a>
 
-<!-- <h3>Incomplete tasks</h3>
-{% for task in incomplete_task_list %}
-    <p>{{ task }}</p>
-{% endfor %} -->
