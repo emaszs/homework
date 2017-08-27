@@ -35,8 +35,8 @@
     {% endfor %}
     <tr>
         <td id="totals-label-cell"><b>Totals:</b></td>
-        <td>{{ total_story_time_estimate }}</td>
-        <td>{{ total_task_time_actual }}</td>
+        <td id="totals-story-work-estimate-cell">{{ total_story_time_estimate }}</td>
+        <td id="totals-story-work-cell">{{ total_task_time_actual }}</td>
     </tr>
 </table>
 {% else %}
@@ -73,8 +73,8 @@
         <td/>
         <td/>
         <td id="totals-label-cell"><b>Totals:</b></td>
-        <td>{{ total_task_time_estimate }}</td>
-        <td>{{ total_task_time_actual }}</td>
+        <td id="totals-task-work-estimate-cell">{{ total_task_time_estimate }}</td>
+        <td id="totals-task-work-cell">{{ total_task_time_actual }}</td>
     </tr>
 <table>
 {% else %}

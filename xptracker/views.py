@@ -40,7 +40,26 @@ class StoryUpdateView(UpdateView):
     template_name_suffix = '_update'
 
 class StoryDeleteView(DeleteView):
+    template_name_suffix = '_delete'
     model = Story
+    success_url = reverse_lazy('xptracker:index')
+
+class TaskCreateView(CreateView):
+    model = Task
+    fields = ['name', 'story', 'developer', 'iteration',
+              'time_hours_estimate']
+    success_url = reverse_lazy('xptracker:index')
+    template_name_suffix = '_create'
+
+class TaskUpdateView(UpdateView):
+    model = Task
+    fields =['name', 'completed', 'developer', 'story',
+             'time_hours_estimate']
+    success_url = reverse_lazy('xptracker:index')
+    template_name_suffix = '_update'
+
+class TaskDeleteView(DeleteView):
+    model = Task
     success_url = reverse_lazy('xptracker:index')
     template_name_suffix = '_delete'
 
@@ -71,22 +90,3 @@ class DeveloperCreateView(CreateView):
 
 class DeveloperDetailView(DetailView):
     model = Developer
-
-class TaskCreateView(CreateView):
-    model = Task
-    fields = ['name', 'story', 'developer', 'iteration',
-              'time_hours_estimate']
-    success_url = reverse_lazy('xptracker:index')
-    template_name_suffix = '_create'
-
-class TaskUpdateView(UpdateView):
-    model = Task
-    fields =['name', 'completed', 'developer', 'story',
-             'time_hours_estimate']
-    success_url = reverse_lazy('xptracker:index')
-    template_name_suffix = '_update'
-
-class TaskDeleteView(DeleteView):
-    model = Task
-    success_url = reverse_lazy('xptracker:index')
-    template_name_suffix = '_delete'
