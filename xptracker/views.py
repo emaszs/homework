@@ -1,9 +1,8 @@
-from django.views.generic.detail import DetailView
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views import generic
 from django.shortcuts import render, get_object_or_404
+from django.urls.base import reverse_lazy
 
 from .models import Developer, Iteration, Story, Task, Work
-from django.urls.base import reverse_lazy
 
 def index(request):
     developer_list = Developer.objects.all()
@@ -27,49 +26,49 @@ def index(request):
     return render(request, 'xptracker/index.html', context)
 
 
-class StoryCreateView(CreateView):
+class StoryCreateView(generic.CreateView):
     model = Story
     fields = ['name', 'iteration', 'time_hours_estimate']
     success_url = reverse_lazy('xptracker:index')
     template_name_suffix = '_create'
 
-class StoryUpdateView(UpdateView):
+class StoryUpdateView(generic.UpdateView):
     model = Story
     fields = ['name', 'iteration', 'time_hours_estimate']
     success_url = reverse_lazy('xptracker:index')
     template_name_suffix = '_update'
 
-class StoryDeleteView(DeleteView):
+class StoryDeleteView(generic.DeleteView):
     model = Story
     success_url = reverse_lazy('xptracker:index')
     template_name_suffix = '_delete'
 
-class TaskCreateView(CreateView):
+class TaskCreateView(generic.CreateView):
     model = Task
     fields = ['name', 'story', 'developer', 'iteration',
               'time_hours_estimate']
     success_url = reverse_lazy('xptracker:index')
     template_name_suffix = '_create'
 
-class TaskUpdateView(UpdateView):
+class TaskUpdateView(generic.UpdateView):
     model = Task
     fields =['name', 'developer', 'story', 'iteration',
              'time_hours_estimate']
     success_url = reverse_lazy('xptracker:index')
     template_name_suffix = '_update'
 
-class TaskDeleteView(DeleteView):
+class TaskDeleteView(generic.DeleteView):
     model = Task
     success_url = reverse_lazy('xptracker:index')
     template_name_suffix = '_delete'
 
-class IterationCreateView(CreateView):
+class IterationCreateView(generic.CreateView):
     model = Iteration
     fields = ['name']
     success_url = reverse_lazy('xptracker:index')
     template_name_suffix = '_create'
 
-class IterationDetailView(DetailView):
+class IterationDetailView(generic.DetailView):
     model = Iteration
 
     def get_context_data(self, **kwargs):
@@ -94,12 +93,12 @@ class IterationDetailView(DetailView):
         context['dev_summaries'] = dev_summaries
         return context
 
-class IterationDeleteView(DeleteView):
+class IterationDeleteView(generic.DeleteView):
     model = Iteration
     success_url = reverse_lazy('xptracker:index')
     template_name_suffix = '_delete'
 
-class WorkCreateView(CreateView):
+class WorkCreateView(generic.CreateView):
     model = Work
     fields = ['name', 'time_hours', 'task', 'developer']
     success_url = reverse_lazy('xptracker:index')
@@ -112,16 +111,16 @@ class WorkCreateView(CreateView):
         else:
             return {'task': None}
 
-class DeveloperCreateView(CreateView):
+class DeveloperCreateView(generic.CreateView):
     model = Developer
     fields = ['name']
     success_url = reverse_lazy('xptracker:index')
     template_name_suffix = '_create'
 
-class DeveloperDeleteView(DeleteView):
+class DeveloperDeleteView(generic.DeleteView):
     model = Developer
     success_url = reverse_lazy('xptracker:index')
     template_name_suffix = '_delete'
 
-class DeveloperDetailView(DetailView):
+class DeveloperDetailView(generic.DetailView):
     model = Developer

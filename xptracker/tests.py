@@ -1,8 +1,9 @@
+from time import sleep
+
 from django.urls import reverse
 from django.test import TestCase
 
 from xptracker.models import Developer, Story, Work, Task, Iteration
-from time import sleep
 
 def create_task(name, developer, iteration, estimate, story):
     return Task.objects.create(name=name, developer=developer,
