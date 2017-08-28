@@ -237,6 +237,25 @@ class DeveloperModelTests(TestCase):
         create_work('Google', 1, task2, dev)
         self.assertEqual(dev.total_work, 2)
 
+class IterationModelTests(TestCase):
+    def test_participating_developers(self):
+        iteration = create_iteration('zero')
+        story = create_story('Time is displayed', iteration, 10)
+
+        self.assertEqual(iteration.participating_developers(), [])
+
+        dev1 = create_developer('Tommy')
+        dev2 = create_developer('Jimmy')
+        create_developer('Stevie')
+
+        create_task('Add time display', dev1, iteration, 10, story)
+        create_task('Match time display to local TZ', dev2, iteration,
+                    10, story)
+
+        expected_str = '[<Developer: Tommy>, <Developer: Jimmy>]'
+        self.assertEqual(str(iteration.participating_developers()),
+                         expected_str)
+
 class IndexViewTests(TestCase):
     def test_empty(self):
         """
