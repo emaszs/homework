@@ -1,36 +1,35 @@
-{% load static %}
-
-<link rel="stylesheet" type="text/css" href="{% static 'xptracker/style.css' %}" />
+{% extends 'xptracker/base.html' %}
+{% block content %}
 
 <h3>Developers</h3>
 {% if developer_list %}
     <ul>
     {% for developer in developer_list %}
-        <li><a href={% url "xptracker:developer_detail" developer.id %}>{{ developer.name }}</a></li>
+        <li><a href='{% url "xptracker:developer_detail" developer.id %}'>{{ developer.name }}</a></li>
     {% endfor %}
     </ul>
 {% else %}
     <p>No developers exist.</p>
 {% endif %}
 
-<a href={% url "xptracker:developer_create" %}>Add developer</a>
+<a href='{% url "xptracker:developer_create" %}'>Add developer</a>
 
 <h3>Stories</h3>
 {% if story_list %}
 <table>
     <tr>
         <th>Name</th>
-        <th>Time estimate</th>
-        <th>Time actual</th>
+        <th>Time estimate (Hours)</th>
+        <th>Time actual (Hours)</th>
     </tr>
     {% for story in story_list %}
     <tr>
         <td>{{ story.name }}<br/>
-            <a href={% url "xptracker:story_update" story.id %}>Edit</a> |
-            <a href={% url "xptracker:story_delete" story.id %}>Delete</a>
+            <a href='{% url "xptracker:story_update" story.id %}'>Edit</a> |
+            <a href='{% url "xptracker:story_delete" story.id %}'>Delete</a>
         </td>
         <td>{{ story.time_hours_estimate }}</td>
-        <td>{{ story.time_work }}</td>
+        <td>{{ story.total_work }}</td>
     </tr>
     {% endfor %}
     <tr>
@@ -43,7 +42,7 @@
     <p>No stories exist.</p>
 {% endif %}
 
-<a href={% url "xptracker:story_create" %}>Create new story</a>
+<a href='{% url "xptracker:story_create" %}'>Create new story</a>
 
 <h3>Tasks</h3>
 {% if task_list %}
@@ -52,36 +51,37 @@
         <th>Name</th>
         <th>Developer</th>
         <th>Iteration</th>
-        <th>Time estimate</th>
-        <th>Time actual</th>
+        <th>Time estimate (Hours)</th>
+        <th>Time actual (Hours)</th>
         <th>Add work</th>
     </tr>
     {% for task in task_list %}
     <tr>
         <td>{{ task.name }}<br/>
-            <a href={% url "xptracker:task_update" task.id %}>Edit</a> |
-            <a href={% url "xptracker:task_delete" task.id %}>Delete</a>
+            <a href='{% url "xptracker:task_update" task.id %}'>Edit</a> |
+            <a href='{% url "xptracker:task_delete" task.id %}'>Delete</a>
         </td>
         <td>{{ task.developer }}</td>
         <td>{{ task.iteration }}</td>
         <td>{{ task.time_hours_estimate }}</td>
         <td>{{ task.total_work }}</td>
-        <td><a href={% url "xptracker:work_create" task.id %}>++</a></td>
+        <td><a href='{% url "xptracker:work_create" task.id %}'>++</a></td>
     </tr>
     {% endfor %}
     <tr>
-        <td/>
-        <td/>
         <td id="totals-label-cell"><b>Totals:</b></td>
+        <td></td>
+        <td></td>
         <td id="totals-task-work-estimate-cell">{{ total_task_time_estimate }}</td>
         <td id="totals-task-work-cell">{{ total_task_time_actual }}</td>
+        <td></td>
     </tr>
-<table>
+</table>
 {% else %}
     <p>No tasks exist.</p>
 {% endif %}
 
-<a href={% url "xptracker:task_create" %}>Create new task</a><br />
+<a href='{% url "xptracker:task_create" %}'>Create new task</a><br />
 
 <h3>Work entries</h3>
 {% if work_list %}
@@ -90,7 +90,7 @@
         <th>Name</th>
         <th>Developer</th>
         <th>When</th>
-        <th>Time spent</th>
+        <th>Time spent (Hours)</th>
     </tr>
     {% for work in work_list %}
     <tr>
@@ -105,14 +105,14 @@
     <p>No work entries exist.</p>
 {% endif %}
 
-<a href={% url "xptracker:work_create" %}>Add work</a><br />
+<a href='{% url "xptracker:work_create" %}'>Add work</a><br />
 
 
 <h3>Iterations with respective stories and tasks</h3>
 {% if iteration_list %}
     <ul>
     {% for iteration in iteration_list %}
-        <li>{{ iteration.name }}</li>
+        <li><a href='{% url "xptracker:iteration_detail" iteration.id %}'>{{ iteration.name }}</a></li>
         <ul>
         {% for story in iteration.story_set.all %}
             <li>{{ story.name }}</li>
@@ -129,5 +129,6 @@
     <p>No iterations exist.</p>
 {% endif %}
 
-<a href={% url "xptracker:iteration_create" %}>Create new iteration</a>
+<a href='{% url "xptracker:iteration_create" %}'>Create new iteration</a>
 
+{% endblock %}

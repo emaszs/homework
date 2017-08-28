@@ -1,3 +1,6 @@
+{% extends 'xptracker/base.html' %}
+{% block content %}
+
 <form action="", method="post">{% csrf_token %}
     {{ form.as_p }}
     <input type="submit", value="Update information" />
@@ -10,3 +13,5 @@
     </p>
 {% endfor %}
 <p>Total work done for this task: {{ task.total_work }} </p>
+
+{% endblock %}

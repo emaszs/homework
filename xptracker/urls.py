@@ -8,6 +8,10 @@ app_name = 'xptracker'
 urlpatterns = [
     # ex: /xptracker/
     url(r'^$', views.index, name='index'),
+    # ex: /developer/5/delete/
+    url(r'^developer/(?P<pk>[0-9]+)/delete/',
+        views.DeveloperDeleteView.as_view(),
+        name='developer_delete'),
     # ex: /developer/5/
     url(r'^developer/(?P<pk>[0-9]+)/', views.DeveloperDetailView.as_view(),
         name='developer_detail'),
@@ -42,4 +46,11 @@ urlpatterns = [
     # ex: /work/create/
     url(r'^work/create/', views.WorkCreateView.as_view(),
         name='work_create'),
+    # ex: /iteration/5/delete/
+    url(r'^iteration/(?P<pk>[0-9]+)/delete/',
+        views.IterationDeleteView.as_view(),
+        name='iteration_delete'),
+    # ex: /iteration/5/
+    url(r'^iteration/(?P<pk>[0-9]+)/', views.IterationDetailView.as_view(),
+        name='iteration_detail'),
 ]

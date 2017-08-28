@@ -279,7 +279,7 @@ class IndexViewTests(TestCase):
 
         response = self.client.get(reverse('xptracker:index'))
         self.assertContains(response, 'The page loads super fast')
-        self.assertContains(response, '20')
+        self.assertContains(response, '20.0')
         self.assertEquals(response.context['story_list'][0], story)
 
     def test_task(self):
@@ -289,8 +289,8 @@ class IndexViewTests(TestCase):
         iteration = create_iteration('zero')
         dev = create_developer('Tommy')
         story = create_story('The page loads super fast', iteration, 20)
-        task = create_task('Get rid of some cat pictures', dev, iteration, 10,
-                           story)
+        task = create_task('Get rid of some cat pictures',
+                           dev, iteration, 10, story)
 
         response = self.client.get(reverse('xptracker:index'))
         self.assertContains(response, 'Get rid of some cat pictures')
@@ -304,8 +304,8 @@ class IndexViewTests(TestCase):
         iteration = create_iteration('zero')
         dev = create_developer('Tommy')
         story = create_story('The page loads super fast', iteration, 20)
-        task = create_task('Get rid of some cat pictures', dev, iteration, 10,
-                           story)
+        task = create_task('Get rid of some cat pictures',
+                           dev, iteration, 10, story)
 
         create_work('Deleting cat pictures :/', 199, task, dev)
 
@@ -330,15 +330,15 @@ class IndexViewTests(TestCase):
         iteration = create_iteration('zero')
         dev = create_developer('Tommy')
         story = create_story('The page loads super fast', iteration, 20)
-        task1 = create_task('Get rid of some cat pictures', dev, iteration, 10,
-                           story)
+        task1 = create_task('Get rid of some cat pictures',
+                            dev, iteration, 10, story)
         task2 = create_task('Optimize front page', dev, iteration, 10, story)
 
         create_work('Deleting cat pictures :/', 199, task1, dev)
         create_work('Optimizing front page', 10, task2, dev)
 
         response = self.client.get(reverse('xptracker:index'))
-        element = '<td id="totals-task-work-cell">209</td>'
+        element = '<td id="totals-task-work-cell">209.0</td>'
         self.assertContains(response, element)
 
     def test_task_total_work_estimate(self):
@@ -348,12 +348,12 @@ class IndexViewTests(TestCase):
         iteration = create_iteration('zero')
         dev = create_developer('Tommy')
         story = create_story('The page loads super fast', iteration, 20)
-        task1 = create_task('Get rid of some cat pictures', dev, iteration, 10,
-                           story)
-        task2 = create_task('Optimize front page', dev, iteration, 10, story)
+        create_task('Get rid of some cat pictures',
+                    dev, iteration, 10, story)
+        create_task('Optimize front page', dev, iteration, 10, story)
 
         response = self.client.get(reverse('xptracker:index'))
-        element = '<td id="totals-task-work-estimate-cell">20</td>'
+        element = '<td id="totals-task-work-estimate-cell">20.0</td>'
         self.assertContains(response, element)
 
     def test_story_total_time_estimate(self):
@@ -365,7 +365,7 @@ class IndexViewTests(TestCase):
         create_story('The page loads even faster', iteration, 30)
 
         response = self.client.get(reverse('xptracker:index'))
-        element = '<td id="totals-story-work-estimate-cell">50</td>'
+        element = '<td id="totals-story-work-estimate-cell">50.0</td>'
         self.assertContains(response, element)
 
     def test_story_total_task_time_actual(self):
@@ -377,15 +377,15 @@ class IndexViewTests(TestCase):
         story2 = create_story('The page loads even faster', iteration, 30)
 
         dev = create_developer('Tommy')
-        task1 = create_task('Get rid of some cat pictures', dev, iteration, 10,
-                           story1)
+        task1 = create_task('Get rid of some cat pictures',
+                            dev, iteration, 10, story1)
         task2 = create_task('Optimize front page', dev, iteration, 10, story2)
 
         create_work('Deleting cat pictures :/', 199, task1, dev)
         create_work('Optimizing front page', 10, task2, dev)
 
         response = self.client.get(reverse('xptracker:index'))
-        element = '<td id="totals-story-work-cell">209</td>'
+        element = '<td id="totals-story-work-cell">209.0</td>'
         self.assertContains(response, element)
 
     def test_work_multiple(self):
@@ -393,13 +393,13 @@ class IndexViewTests(TestCase):
         Different work entries are displayed from newest to oldest.
         """
         iteration = create_iteration('zero')
-        story1 = create_story('The page loads super fast', iteration, 20)
+        story = create_story('The page loads super fast', iteration, 20)
         dev = create_developer('Tommy')
-        task1 = create_task('Get rid of some cat pictures', dev, iteration, 10,
-                           story1)
-        create_work('Optimizing front page', 10, task1, dev)
+        task = create_task('Get rid of some cat pictures',
+                           dev, iteration, 10, story)
+        create_work('Optimizing front page', 10, task, dev)
         sleep(1)
-        create_work('Deleting cat pictures', 10, task1, dev)
+        create_work('Deleting cat pictures', 10, task, dev)
 
         response = self.client.get(reverse('xptracker:index'))
         response.context['work_list']
@@ -415,15 +415,49 @@ class IndexViewTests(TestCase):
         """
         iteration = create_iteration('zero')
         dev = create_developer('Tommy')
-        story1 = create_story('The page loads super fast', iteration, 20)
-        task = create_task('Get rid of some cat pictures', dev, iteration, 10,
-                           story1)
+        story = create_story('The page loads super fast', iteration, 20)
+        task = create_task('Get rid of some cat pictures',
+                           dev, iteration, 10, story)
         create_work('Optimizing front page', 30, task, dev)
 
         response = self.client.get(reverse('xptracker:developer_detail',
-                                           kwargs={ 'pk': dev.id}))
+                                           kwargs={'pk': dev.id}))
+
+        element_estimate = '<td id="totals-task-work-estimate-cell">10.0</td>'
+        element_actual = '<td id="totals-task-work-cell">30.0</td>'
 
         self.assertContains(response, 'Tommy')
         self.assertContains(response, 'Get rid of some cat pictures')
-        self.assertContains(response, '30 Hours')
-        self.assertContains(response, '10 Hours')
+        self.assertContains(response, element_estimate)
+        self.assertContains(response, element_actual)
+
+class IterationDetailViewTests(TestCase):
+    def test_iteration_detail(self):
+        """
+        Iteration's work estimate (the sum of tasks' estimates)
+        as well as iteration's actual work done (the sum of tasks'
+        actual work time) is correctly totaled and displayed.
+        """
+        iteration1 = create_iteration('zero')
+        dev = create_developer('Tommy')
+        story1 = create_story('Users can like specific cat pictures',
+                             iteration1, 20)
+        task1 = create_task('Implement like button on cat pictures',
+                           dev, iteration1, 20, story1)
+        create_work('Designing the button', 2, task1, dev)
+        create_work('Backend', 3, task1, dev)
+
+        iteration2 = create_iteration('one')
+        story2 = create_story('Something else entirely',
+                             iteration2, 100)
+        task2 = create_task('Something unrelated', dev, iteration2, 100, story2)
+        create_work('Facebook', 100, task2, dev)
+
+        response = self.client.get(reverse('xptracker:iteration_detail',
+                                           kwargs={'pk': iteration1.id}))
+
+        element_estimate = '<td id="totals-task-work-estimate-cell">20.0</td>'
+        element_actual = '<td id="totals-task-work-cell">5.0</td>'
+
+        self.assertContains(response, element_estimate)
+        self.assertContains(response, element_actual)

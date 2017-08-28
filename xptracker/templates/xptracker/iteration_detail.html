@@ -1,0 +1,33 @@
+{% extends 'xptracker/base.html' %}
+{% block content %}
+
+<h3>Iteration '{{ iteration.name }}'</h3>
+
+<h4>Summary of work estimated and work done by each developer this iteration:</h4>
+{% if dev_summaries %}
+    <table>
+    <tr>
+        <th>Name</th>
+        <th>Time estimated (Hours)</th>
+        <th>Time actual (Hours)</th>
+    </tr>
+    {% for dev in dev_summaries %}
+    <tr>
+        <td>{{ dev.0 }}</td>
+        <td>{{ dev.1 }}</td>
+        <td>{{ dev.2 }}</td>
+    </tr>
+    {% endfor %}
+    <tr>
+        <td id="totals-label-cell"><b>Totals:</b></td>
+        <td id="totals-task-work-estimate-cell">{{ iteration.total_work_estimate }}</td>
+        <td id="totals-task-work-cell">{{ iteration.total_work }}</td>
+    </tr>
+    </table>
+{% else %}
+    <p>No data found.</p>
+{% endif %}
+
+<p><a href='{% url "xptracker:iteration_delete" iteration.id%}'>Remove this iteration</a></p>
+
+{% endblock %}

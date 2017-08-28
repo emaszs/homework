@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>xptracker</title>
+        <meta charset="utf-8">
+
+        {% load static %}
+        <link rel="shortcut icon" type="image/png" href="{% static 'xptracker/favicon.ico' %}"/>
+        <link rel="stylesheet" type="text/css" href="{% static 'xptracker/style.css' %}" />
+    </head>
+    <body>
+        <a href='{% url "xptracker:index" %}'>Home</a>
+        {% block content %}{% endblock %}
+    </body>
+</html>

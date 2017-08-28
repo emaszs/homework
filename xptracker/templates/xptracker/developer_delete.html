@@ -2,8 +2,8 @@
 {% block content %}
 
 <form action="" method="post">{% csrf_token %}
-    <p>Are you sure you want to delete the story "{{ task }}"?<br/>
-    All history of work done for this task will also be deleted.</p>
+    <p>Are you sure you want to remove the developer "{{ developer }}"?<br/>
+    All work done by this developer will also be removed.</p>
     <input type="submit" value="Confirm" />
 </form>
 

@@ -1,13 +1,37 @@
+{% extends 'xptracker/base.html' %}
+{% block content %}
+
 <h2>Developer details</h2>
 Name: {{ developer.name }}
 
 <h4>Developer's tasks:</h4>
-{% for task in developer.task_set.all %}
-    <p>{{ task.name }}</p>
-{% endfor %}
+{% if developer.task_set.all %}
+    <table>
+    <tr>
+        <th>Name</th>
+        <th>Iteration</th>
+        <th>Time estimate</th>
+        <th>Time actual</th>
+    </tr>
+    {% for task in developer.task_set.all %}
+        <tr>
+            <td>{{ task.name }}</td>
+            <td>{{ task.iteration }}</td>
+            <td>{{ task.time_hours_estimate }}</td>
+            <td>{{ task.total_work }}</td>
+        </tr>
+        <tr>
+            <td id="totals-label-cell"><b>Totals:</b></td>
+            <td/>
+            <td id="totals-task-work-estimate-cell">{{ developer.total_work_estimate }}</td>
+            <td id="totals-task-work-cell">{{ developer.total_work }}</td>
+        </tr>
+    {% endfor %}
+    <table>
+{% else %}
+    <p>No tasks exist.</p>
+{% endif %}
 
-<h4>total work done:</h4>
-{{ developer.total_work }} Hours
+<p><a href='{% url "xptracker:developer_delete" developer.id%}'>Remove {{ developer.name }}</a></p>
 
-<h4>total work estimated:</h4>
-{{ developer.total_work_estimate }} Hours
+{% endblock %}

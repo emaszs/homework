@@ -53,7 +53,7 @@ class TaskCreateView(CreateView):
 
 class TaskUpdateView(UpdateView):
     model = Task
-    fields =['name', 'completed', 'developer', 'story',
+    fields =['name', 'developer', 'story', 'iteration',
              'time_hours_estimate']
     success_url = reverse_lazy('xptracker:index')
     template_name_suffix = '_update'
@@ -69,6 +69,36 @@ class IterationCreateView(CreateView):
     success_url = reverse_lazy('xptracker:index')
     template_name_suffix = '_create'
 
+class IterationDetailView(DetailView):
+    model = Iteration
+
+    def get_context_data(self, **kwargs):
+        """
+        Adds an additional key to the context.
+        The data structure 'dev_summaries' is a list of tuples that each contain
+        3 items in this order:
+           * Developer's name,
+           * Developer's estimated time to complete the tasks this iteration
+           * Developer's actual work time on tasks this iteration
+        """
+        context = super(IterationDetailView, self).get_context_data(**kwargs)
+
+        dev_summaries = []
+
+        for dev in context['iteration'].participating_developers():
+            tasks = dev.task_set.filter(iteration=context['iteration'])
+            estimate = sum(task.time_hours_estimate for task in tasks)
+            actual = sum(task.total_work for task in tasks)
+            dev_summaries.append((dev.name, estimate, actual))
+
+        context['dev_summaries'] = dev_summaries
+        return context
+
+class IterationDeleteView(DeleteView):
+    model = Iteration
+    success_url = reverse_lazy('xptracker:index')
+    template_name_suffix = '_delete'
+
 class WorkCreateView(CreateView):
     model = Work
     fields = ['name', 'time_hours', 'task', 'developer']
@@ -78,7 +108,7 @@ class WorkCreateView(CreateView):
     def get_initial(self):
         if 'task_id' in self.kwargs:
             task = get_object_or_404(Task, pk=self.kwargs['task_id'])
-            return {'task': task}
+            return {'task': task, 'developer': task.developer}
         else:
             return {'task': None}
 
@@ -87,6 +117,11 @@ class DeveloperCreateView(CreateView):
     fields = ['name']
     success_url = reverse_lazy('xptracker:index')
     template_name_suffix = '_create'
+
+class DeveloperDeleteView(DeleteView):
+    model = Developer
+    success_url = reverse_lazy('xptracker:index')
+    template_name_suffix = '_delete'
 
 class DeveloperDetailView(DetailView):
     model = Developer

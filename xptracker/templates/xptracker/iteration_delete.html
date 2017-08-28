@@ -2,8 +2,8 @@
 {% block content %}
 
 <form action="" method="post">{% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Create iteration">
+    <p>Are you sure you want to remove the iteration "{{ iteration }}"?<br/>
+    <input type="submit" value="Confirm" />
 </form>
 
 {% endblock %}
