@@ -27,3 +27,7 @@
    * Click 'Add work' or the '++' shortcut near one of the tasks to create a work entry, which shows that a certain developer has contributed a certain amount of time to the set task.
    * The developer names listed at the top of the page link to the developer detail page. The developer detail page lists the developer's assigned tasks, how much work the developer has estimated is needed to be done as well has how much work the developer has actually done on each task.
    * The iteration names listed at the bottom of the page link to the iteration detail page. The iteration detail page lists the developers that have participated in the iteration (developers that have tasks assigned in the iteration), how much work they have estimated needs to be done as well as how much work they have actually done.
+
+
+### Screenshot:
+![screenshot](https://imgur.com/a/SVh36)
