@@ -211,6 +211,19 @@ class IterationTimeSummaryTestCase(StaticLiveServerTestCase):
         super(IterationTimeSummaryTestCase, self).tearDown()
 
     def test_iteration_time_summary(self):
-        import pdb; pdb.set_trace()
-        self.browser.get(self.live_server_url+'/xptracker/iteration/1')
-        print('lol')
+        """
+        Time estimate totals and actual work totals are displayed correctly
+        in the iteration detail page based on how much work each developer did
+        for this iteration.
+        """
+        self.browser.get(self.live_server_url+'/xptracker/')
+
+        link = self.browser.find_element_by_link_text('zero')
+
+        link.click()
+        element1 = self.browser.find_element_by_id(
+            'totals-task-work-estimate-cell')
+        assert element1.text == '4.0'
+        element2 = self.browser.find_element_by_id(
+            'totals-task-work-cell')
+        assert element2.text == '3.0'
