@@ -1,5 +1,12 @@
 # xptracker 
 
+### Project files description:
+   * `homework/xptracker/templates/xptracker/` contains the Django templates that are compiled into HTML as needed.
+   * `homework/xptracker/templates/xptracker/` contains some less than interesting static files such as a primitive style.css stylesheet as well as a favicon.
+   * `homework/xptracker/tests_unit.py` contains unit tests, `/homework/xptracker/tests_selenium.py` contains  some functional tests that rely on Selenium.
+   * `homework/xptracker/urls.py` contains the main routing rules.
+   * `homework/xptracker/views.py` contains all of the view descriptions.
+   
 ### Pre-requisites to run
    * Have Python 2.7-3.6 installed.
    * Have Django installed (code written on Django 1.11.4, Python 3.6), can be done with `pip install Django` either system-wide or in a [virtualenv](https://virtualenv.pypa.io/en/stable/).
