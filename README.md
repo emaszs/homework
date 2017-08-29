@@ -15,7 +15,7 @@
    
 ### To run:
    * `git clone https://github.com/emaszs/homework.git` in a local directory, ex `/home/Tommy/repos/`.
-   * run `python /home/Tommy/repos/homework/manage.py makemigrations` and `python /home/Tommy/repos/homework/manage.py migrate` to create an empty sqlite database
+   * run `python homework/manage.py migrate --run-syncdb` to create an empty sqlite database
    * run `python /home/Tommy/repos/homework/manage.py runserver`.
    * Navigate to http://127.0.0.1:8000/xptracker in your web browser.
    
