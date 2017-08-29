@@ -4,7 +4,6 @@ from . import views
 
 app_name = 'xptracker'
 
-# TODO sort urls better!
 urlpatterns = [
     # ex: /xptracker/
     url(r'^$', views.index, name='index'),
