@@ -3,7 +3,6 @@ from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium import webdriver
 from selenium.webdriver.support.ui import Select
 
-from xptracker.models import Developer, Story, Work, Task, Iteration
 from xptracker.tests_unit import create_developer, create_story, create_work, \
     create_iteration, create_task
 
@@ -30,7 +29,7 @@ class IndexTestCase(StaticLiveServerTestCase):
         name_field = self.browser.find_element_by_id('id_name')
         name_field.send_keys(name)
         story_select = Select(self.browser.
-                                  find_element_by_id('id_story'))
+                              find_element_by_id('id_story'))
         story_select.select_by_visible_text(story)
         developer_select = Select(self.browser.
                                   find_element_by_id('id_developer'))
@@ -196,7 +195,7 @@ class IterationTimeSummaryTestCase(StaticLiveServerTestCase):
         create_work('Some work from dev2', 1, task2, dev2)
 
         iteration2 = create_iteration('misc')
-        story2 = create_story('Worst story',iteration2, 1)
+        story2 = create_story('Worst story', iteration2, 1)
         task3 = create_task('Best task', dev1, iteration2, 2, story2)
         task4 = create_task('Another task', dev2, iteration2, 2, story2)
         create_work('Unrelated work from dev1', 1, task3, dev1)

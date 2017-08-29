@@ -52,8 +52,8 @@ class TaskCreateView(generic.CreateView):
 
 class TaskUpdateView(generic.UpdateView):
     model = Task
-    fields =['name', 'developer', 'story', 'iteration',
-             'time_hours_estimate']
+    fields = ['name', 'developer', 'story', 'iteration',
+              'time_hours_estimate']
     success_url = reverse_lazy('xptracker:index')
     template_name_suffix = '_update'
 
@@ -108,8 +108,8 @@ class WorkCreateView(generic.CreateView):
         if 'task_id' in self.kwargs:
             task = get_object_or_404(Task, pk=self.kwargs['task_id'])
             return {'task': task, 'developer': task.developer}
-        else:
-            return {'task': None}
+
+        return {'task': None}
 
 class DeveloperCreateView(generic.CreateView):
     model = Developer

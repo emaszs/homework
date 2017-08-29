@@ -183,7 +183,7 @@ class DeveloperModelTests(TestCase):
         iteration = create_iteration('zero')
         dev = create_developer('Tommy')
         story = create_story('Balance the amounts of cat and dog pictures',
-                            iteration, 15)
+                             iteration, 15)
         task = create_task('Add more dog pics', dev, iteration, 1, story)
 
         create_work('Adding more dog pics', 1, task, dev)
@@ -224,9 +224,9 @@ class DeveloperModelTests(TestCase):
         iteration = create_iteration('zero')
         dev = create_developer('Tommy')
         story1 = create_story('Balance the amounts of cat and dog pictures',
-                             iteration, 15)
+                              iteration, 15)
         story2 = create_story('Cats and dogs are not the only animals',
-                             iteration, 10)
+                              iteration, 10)
 
         task1 = create_task('Add more dog pics', dev, iteration, 1, story1)
         task2 = create_task('Find more animals', dev, iteration, 1, story2)
@@ -458,15 +458,15 @@ class IterationDetailViewTests(TestCase):
         iteration1 = create_iteration('zero')
         dev = create_developer('Tommy')
         story1 = create_story('Users can like specific cat pictures',
-                             iteration1, 20)
+                              iteration1, 20)
         task1 = create_task('Implement like button on cat pictures',
-                           dev, iteration1, 20, story1)
+                            dev, iteration1, 20, story1)
         create_work('Designing the button', 2, task1, dev)
         create_work('Backend', 3, task1, dev)
 
         iteration2 = create_iteration('one')
         story2 = create_story('Something else entirely',
-                             iteration2, 100)
+                              iteration2, 100)
         task2 = create_task('Something unrelated', dev, iteration2, 100, story2)
         create_work('Facebook', 100, task2, dev)
 
@@ -478,5 +478,3 @@ class IterationDetailViewTests(TestCase):
 
         self.assertContains(response, element_estimate)
         self.assertContains(response, element_actual)
-
-
