@@ -30,4 +30,4 @@
 
 
 ### Screenshot:
-![screenshot](https://imgur.com/a/SVh36)
+![screenshot](https://i.imgur.com/tn0O4ta.png)
