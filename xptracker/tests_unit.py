@@ -1,5 +1,3 @@
-from time import sleep
-
 from django.urls import reverse
 from django.test import TestCase
 
@@ -418,7 +416,6 @@ class IndexViewTests(TestCase):
         task = create_task('Get rid of some cat pictures',
                            dev, iteration, 10, story)
         create_work('Optimizing front page', 10, task, dev)
-        sleep(1)
         create_work('Deleting cat pictures', 10, task, dev)
 
         response = self.client.get(reverse('xptracker:index'))
@@ -481,3 +478,5 @@ class IterationDetailViewTests(TestCase):
 
         self.assertContains(response, element_estimate)
         self.assertContains(response, element_actual)
+
+
