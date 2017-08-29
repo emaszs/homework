@@ -4,7 +4,7 @@
    * `homework/xptracker/templates/xptracker/` contains the Django templates that are compiled into HTML as needed.
    * `homework/xptracker/templates/xptracker/` contains some less than interesting static files such as a primitive style.css stylesheet as well as a favicon.
    * `homework/xptracker/tests_unit.py` contains unit tests, `/homework/xptracker/tests_selenium.py` contains  some functional tests that rely on Selenium.
-   * `homework/xptracker/urls.py` contains the main routing rules.
+   * `homework/xptracker/urls.py` contains the main routing rules. (On top of `homework/urls.py` of course.)
    * `homework/xptracker/views.py` contains all of the view descriptions.
    
 ### Pre-requisites to run
