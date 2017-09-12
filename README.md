@@ -1,4 +1,6 @@
 # xptracker 
+### Project description:
+  A simple web app written in Django where different developers can add the time they've spent working on various tasks in an extreme programming environment. The app displays tables with time totals for each story and task. The amount of work done by each developer for a certain iteration can also be found by clicking on the developer names at the top of the page.
 
 ### Project files description:
    * `homework/xptracker/templates/xptracker/` contains the Django templates that are compiled into HTML as needed.
